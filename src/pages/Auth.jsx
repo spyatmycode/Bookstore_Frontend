@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import illustration from '../assets/Photos-bro (1).svg'
 import { FaEye } from 'react-icons/fa'
 import toast from 'react-hot-toast'
@@ -220,7 +220,15 @@ const SignUp = ({ toggle }) => {
 }
 
 const RenderAuth = () => {
-    const [showSignUp, setShowSignUp] = useState(true)
+    const lsShowSignUp = localStorage.getItem("lsShowSignUp") ? JSON.parse(localStorage.getItem("lsShowSignUp")) : false
+    const [showSignUp, setShowSignUp] = useState(lsShowSignUp)
+
+    useEffect(()=>{
+
+        localStorage.setItem("lsShowSignUp", showSignUp)
+
+    }, [showSignUp])
+    
     return (
         <div className="w-full h-screen flex justify-center items-center bg-[#ebeaee]">
 
