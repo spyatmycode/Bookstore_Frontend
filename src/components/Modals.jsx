@@ -6,19 +6,56 @@ import { deleteBook } from "../functions/functions";
 import circleLoading from '../assets/circleLoading.gif'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import useAuthContext  from '../hooks/useAuthContext'
+import useAuthContext from '../hooks/useAuthContext'
 import useDataContext from '../hooks/useDataContext'
+import { PaystackButton } from 'react-paystack'
 
 export const AddModal = ({ show, setShow }) => {
 
-  const {authState} = useAuthContext();
+  const { authState } = useAuthContext();
 
-  const [inputs, setInputs] = useState({ title: "", author: "", year: "" });
+
+  const [inputs, setInputs] = useState({ title: "", author: "", year: "", amount: 10000 });
 
   const { getData } = useDataContext();
 
+  if (!authState || !getData) return
+
+
+
+  const paystackButtonProps = {
+    email: authState?.user?.email,
+    amount: inputs.amount,
+    metadata: {
+      name: authState?.user.userData?.first_name,
+      phone: authState?.user.userData?.phone,
+      book: {
+        bookName: inputs.title,
+        bookAuthor: inputs.author,
+        bookYear: inputs.year,
+      }
+    },
+    publicKey: `pk_live_729425cdaab5414754847d06f523e6cd1cc78f59`,
+    text: "Add book now",
+    onSuccess: () => {
+      alert("Thanks for doing business with us! Come back soon!!");
+      console.log("inside pay", inputs);
+      handleSubmit();
+    },
+    onClose: () => {
+      alert("Wait! You need this oil, don't go!!!!");
+      setShow(false)
+    },
+  }
+
+  console.log("inside pay", inputs);
+
+
+
 
   const handleChange = (e) => {
+
+    
 
     const { name, value } = e.target;
 
@@ -28,10 +65,11 @@ export const AddModal = ({ show, setShow }) => {
 
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
 
-    e.preventDefault();
+   
 
+ 
     const { title, author, year } = inputs
     if (!title || !author || !year) return;
 
@@ -48,7 +86,7 @@ export const AddModal = ({ show, setShow }) => {
         <div className='w-full h-[100vh] opacity-50 absolute block bg-black' onClick={() => setShow(false)}>
 
         </div>
-        <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' onSubmit={handleSubmit}>
+        <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' onSubmit={(e)=>e.preventDefault()}>
           <div className='flex justify-between items-center my-2 '>
             <h1 className='text-2xl '>
               Add a New Book !
@@ -62,22 +100,24 @@ export const AddModal = ({ show, setShow }) => {
           <div className='flex justify-start flex-col gap-5'>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>
-              <input type="text" name='title' placeholder='Enter book title' className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' onChange={handleChange} />
+              <input type="text" name='title' placeholder='Enter book title' className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' value={inputs.title} onChange={handleChange} />
             </div>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Author</label>
-              <input type="text" name='author' placeholder="Enter book's author" className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' onChange={handleChange} />
+              <input type="text" name='author' value={inputs.author} placeholder="Enter book's author" className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' onChange={handleChange} />
             </div>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Year</label>
-              <input type="number" name='year' placeholder="Enter the book's year" className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' onChange={handleChange} />
+              <input type="number" name='year' value={inputs.year} placeholder="Enter the book's year" className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' onChange={handleChange} />
             </div>
 
           </div>
 
           <div className='w-full px-3'>
-            <button type="submit" className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>
+            <PaystackButton {...paystackButtonProps} className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' />
+            {/* <button type="submit" className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button> */}
           </div>
+
         </form>
 
       </div>
@@ -161,7 +201,7 @@ export const DetailsModal = ({ data }) => {
 
 
 export const DeleteModal = ({ show, setShow, id }) => {
-  const {authState} = useAuthContext();
+  const { authState } = useAuthContext();
   const { getData } = useDataContext();
   return show && createPortal(
 
@@ -180,7 +220,7 @@ export const DeleteModal = ({ show, setShow, id }) => {
           <button className='rounded-md px-4 py-3 bg-red-600 text-white' onClick={() => setShow(false)}>
             Cancel
           </button>
-          <button className='rounded-md px-4 py-3 bg-green-600 text-white' onClick={() => { deleteBook(id, getData,authState.user.token ); setShow(false) }}>
+          <button className='rounded-md px-4 py-3 bg-green-600 text-white' onClick={() => { deleteBook(id, getData, authState.user.token); setShow(false) }}>
             Delete
           </button>
 
@@ -215,7 +255,7 @@ export const LoadingModal = ({ loading }) => {
 
 export const EditModal = ({ setShow, show, id }) => {
   const { data, getData } = useDataContext()
-  const {authState} = useAuthContext();
+  const { authState } = useAuthContext();
 
   console.log(data);
 
