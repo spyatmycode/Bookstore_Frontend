@@ -58,7 +58,7 @@ const SignIn = ({ toggle }) => {
 
 
     return (
-        <form className='w-full bg-white h-full' onSubmit={(e) => handleSignIn(e)}>
+        <form className='w-full bg-white h-full py-5' onSubmit={(e) => handleSignIn(e)}>
 
             <div className='w-full flex justify-end items-center gap-10 pr-10 pt-4 pb-10'>
                 <p className='font-medium  text-gray-300 text-sm'>Don't have an account?</p>
@@ -157,7 +157,7 @@ const SignUp = ({ toggle }) => {
 
     console.log(signupInputs)
     return (
-        <form className='w-full bg-white h-full' onSubmit={handleSignUp}>
+        <form className='w-full bg-white h-full py-5' onSubmit={handleSignUp}>
 
             <div className='w-full flex justify-end items-center gap-10 pr-10 pt-4 pb-10'>
                 <p className='font-medium  text-gray-300 text-sm'>Already have an account?</p>
@@ -224,7 +224,7 @@ const RenderAuth = () => {
     return (
         <div className="w-full h-screen flex justify-center items-center bg-[#ebeaee]">
 
-            <div className='flex lg:h-5/6 lg:w-2/3 w-full h-full lg:shadow-lg'>
+            <div className={`flex ${showSignUp &&  "lg:h-auto"} ${!showSignUp &&  "lg:h-5/6"}  lg:w-2/3 w-full h-full lg:shadow-lg`}>
                 <div className='hidden bg-[#98c1f739] w-2/5 lg:flex justify-center items-center'>
                     <img src={illustration} className='' alt="" width={"350px"} />
                 </div>
