@@ -3,7 +3,7 @@ import { AddBook, Logout } from './Buttons'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import  useAuthContext  from '../hooks/useAuthContext'
-import SideBar from './SIdeBar'
+import SideBar from './SideBar'
 import { FaBars } from 'react-icons/fa'
 import useDataContext from '../hooks/useDataContext'
 
