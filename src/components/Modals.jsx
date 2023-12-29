@@ -37,6 +37,7 @@ export const AddModal = ({ show, setShow }) => {
     },
     publicKey: `pk_live_729425cdaab5414754847d06f523e6cd1cc78f59`,
     text: "Add book now",
+   
     onSuccess: () => {
       alert("Thanks for doing business with us! Come back soon!!");
       console.log("inside pay", inputs);
@@ -114,8 +115,8 @@ export const AddModal = ({ show, setShow }) => {
           </div>
 
           <div className='w-full px-3'>
-            <PaystackButton {...paystackButtonProps} className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' />
-            {/* <button type="submit" className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button> */}
+            {(inputs.author && inputs.title && inputs.year) ?<PaystackButton  {...paystackButtonProps} className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' />
+            :<button disabled className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>}
           </div>
 
         </form>
