@@ -9,13 +9,14 @@ import toast from 'react-hot-toast'
 import useAuthContext from '../hooks/useAuthContext'
 import useDataContext from '../hooks/useDataContext'
 import { PaystackButton } from 'react-paystack'
+import { convertToBase64 } from '../functions/functions';
 
 export const AddModal = ({ show, setShow }) => {
 
   const { authState } = useAuthContext();
 
 
-  const [inputs, setInputs] = useState({ title: "", author: "", year: "", amount: 10000 });
+  const [inputs, setInputs] = useState({ title: "", author: "", year: "", imageUrl: "", amount: 10000 });
 
   const { getData } = useDataContext();
 
@@ -37,26 +38,26 @@ export const AddModal = ({ show, setShow }) => {
     },
     publicKey: `pk_live_729425cdaab5414754847d06f523e6cd1cc78f59`,
     text: "Add book now",
-   
+
     onSuccess: () => {
       alert("Thanks for doing business with us! Come back soon!!");
       console.log("inside pay", inputs);
       handleSubmit();
     },
     onClose: () => {
-      alert("Wait! You need this oil, don't go!!!!");
+      alert("Are you sure you don't to publish your book?");
       setShow(false)
     },
   }
 
-  console.log("inside pay", inputs);
+  console.log("outside pay", inputs);
 
 
 
 
   const handleChange = (e) => {
 
-    
+
 
     const { name, value } = e.target;
 
@@ -64,19 +65,29 @@ export const AddModal = ({ show, setShow }) => {
 
   }
 
+  const handleImageChange = async (e) => {
+
+    console.log(e);
+
+    const converted = await convertToBase64(e.target.files[0])
+    setInputs({ ...inputs, imageUrl: converted })
+
+  }
 
 
-  const handleSubmit = async () => {
 
-   
+  const handleSubmit = async (e) => {
 
- 
-    const { title, author, year } = inputs
+    // e.preventDefault()
+
+
+    const { title, author, year, imageUrl } = inputs
     if (!title || !author || !year) return;
 
-    addBook(title, year, author, getData, authState.user.token)
+    addBook(title, year, author,imageUrl, getData, authState.user.token)
 
     setShow(false)
+   
   }
 
 
@@ -100,6 +111,13 @@ export const AddModal = ({ show, setShow }) => {
           {/* Inputs */}
           <div className='flex justify-start flex-col gap-5'>
             <div className='flex flex-col gap-2 justify-start px-3'>
+              <label htmlFor="author">Image</label>
+              <input type="file" accept='.jpg, .png, .jpeg' name='imageUrl' placeholder='Enter book title' className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md'
+                onChange={handleImageChange}
+              />
+              {inputs.imageUrl && <img className='w-full h-[100px]' src={inputs.imageUrl}  />}
+            </div>
+            <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>
               <input type="text" name='title' placeholder='Enter book title' className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' value={inputs.title} onChange={handleChange} />
             </div>
@@ -118,7 +136,10 @@ export const AddModal = ({ show, setShow }) => {
             {(inputs.author && inputs.title && inputs.year) ?<PaystackButton  {...paystackButtonProps} className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' />
             :<button disabled className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>}
           </div>
-
+         {/*  <div className='w-full px-3'>
+            <button type='submit' className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>
+          </div>
+ */}
         </form>
 
       </div>
@@ -136,7 +157,8 @@ export const DetailsModal = ({ data }) => {
     createdAt,
     updatedAt,
     _id,
-    publishYear
+    publishYear,
+  
   } = data.book
 
 
@@ -163,6 +185,10 @@ export const DetailsModal = ({ data }) => {
           </div>
           {/* Inputs */}
           <div className='flex justify-start flex-col gap-5'>
+            <div className='flex flex-col gap-2 justify-start px-3'>
+              <label htmlFor="author">Image</label>
+              {data?.book?.imageUrl && <img  src={data?.book?.imageUrl} className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 w-full h-[200px] outline-gray-200 rounded-md' />}
+            </div> 
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>
               <h1 className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md'>
@@ -271,7 +297,7 @@ export const EditModal = ({ setShow, show, id }) => {
   }, [currentBook])
 
 
-  const [inputs, setInputs] = currentBook && useState({ title: currentBook.title, author: currentBook.author, publishYear: currentBook.publishYear })
+  const [inputs, setInputs] = currentBook && useState({ title: currentBook.title, author: currentBook.author, publishYear: currentBook.publishYear, imageUrl: currentBook?.imageUrl || "" })
 
   useEffect(() => {
     setInputs(currentBook)
@@ -287,20 +313,30 @@ export const EditModal = ({ setShow, show, id }) => {
 
   }
 
+  const handleImageChange = async (e) => {
+
+    console.log(e);
+
+    const converted = await convertToBase64(e.target.files[0])
+    setInputs({ ...inputs, imageUrl: converted })
+
+  }
+
+
 
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-    const { title, author, publishYear, _id } = inputs
+    const { title, author, publishYear, _id , imageUrl} = inputs
 
     if (!title || !author || !publishYear) {
       toast.error("You're missing something");
       return;
     }
 
-    editBook(id, title, publishYear, author, getData, authState.user.token)
+    editBook(id, title, publishYear, author, imageUrl, getData, authState.user.token)
 
     setShow(false)
   }
@@ -329,6 +365,14 @@ export const EditModal = ({ setShow, show, id }) => {
           </div>
           {/* Inputs */}
           <div className='flex justify-start flex-col gap-5'>
+          <div className='flex flex-col gap-2 justify-start px-3'>
+              <label htmlFor="author">Image</label>
+              <input type="file" accept='.jpg, .png, .jpeg' name='imageUrl' placeholder='Enter book title' className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md'
+                onChange={handleImageChange}
+
+              />
+              {inputs.imageUrl && <img className='w-full h-[100px]' src={inputs.imageUrl}  />}
+            </div>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>
               <input type="text" name='title' placeholder='Enter book title' value={inputs.title} className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md' onChange={handleChange} />

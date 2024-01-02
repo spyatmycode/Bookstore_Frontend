@@ -26,13 +26,14 @@ export const deleteBook = async (id, getData, token) => {
 
 //This is to add a single book
 
-export const addBook = async (title, year, author, getData, token) => {
+export const addBook = async (title, year, author, imageUrl, getData, token) => {
   console.log(token);
   await toast.promise(
     axios.post(`${URL}/books`, {
       title: title,
       publishYear: Number(year),
       author: author,
+      imageUrl:imageUrl
     },{
       headers:{
         Authorization: `Bearer ${token}`
@@ -53,12 +54,13 @@ export const addBook = async (title, year, author, getData, token) => {
 
 //This is to edit a book
 
-export const editBook = async (id, title, year, author, getData, token) => {
+export const editBook = async (id, title, year, author,imageUrl, getData, token) => {
   await toast.promise(
     axios.put(`${URL}/books/${id}`, {
       title: title,
       publishYear: Number(year),
       author: author,
+      imageUrl:imageUrl
     }, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -94,4 +96,17 @@ export const getBook = async (id, token) => {
   return data;
 
 };
+
+export function convertToBase64(file){
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    };
+    fileReader.onerror = (error) => {
+      reject(error)
+    }
+  })
+}
 
