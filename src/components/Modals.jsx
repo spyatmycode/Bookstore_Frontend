@@ -77,9 +77,9 @@ export const AddModal = ({ show, setShow }) => {
 
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
 
-    e.preventDefault()
+    
 
 
     const { title, author, year, image } = inputs
@@ -100,8 +100,8 @@ export const AddModal = ({ show, setShow }) => {
 
         </div>
         <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' 
-        onSubmit={handleSubmit}
-        //  onSubmit={(e)=>e.preventDefault()}
+        // onSubmit={handleSubmit}
+         onSubmit={(e)=>e.preventDefault()}
         >
           <div className='flex justify-between items-center my-2 '>
             <h1 className='text-2xl '>
@@ -137,13 +137,13 @@ export const AddModal = ({ show, setShow }) => {
 
           </div>
 
-         {/*  <div className='w-full px-3'>
+          <div className='w-full px-3'>
             {(inputs.author && inputs.title && inputs.year) ?<PaystackButton  {...paystackButtonProps} className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' />
             :<button disabled className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>}
-          </div> */}
-          <div className='w-full px-3'>
-            <button type='submit' className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>
           </div>
+          {/* <div className='w-full px-3'>
+            <button type='submit' className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>
+          </div> */}
 
         </form>
 
