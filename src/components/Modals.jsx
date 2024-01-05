@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import ReactDOM, { createPortal } from 'react-dom'
 import { FaTimes } from 'react-icons/fa'
 import { addBook, editBook } from '../functions/functions'
@@ -10,13 +10,14 @@ import useAuthContext from '../hooks/useAuthContext'
 import useDataContext from '../hooks/useDataContext'
 import { PaystackButton } from 'react-paystack'
 import { convertToBase64 } from '../functions/functions';
+import { URL } from '../config/config';
 
 export const AddModal = ({ show, setShow }) => {
 
   const { authState } = useAuthContext();
 
 
-  const [inputs, setInputs] = useState({ title: "", author: "", year: "", imageUrl: "", amount: 10000 });
+  const [inputs, setInputs] = useState({ title: "", author: "", year: "", image: "", amount: 10000 });
 
   const { getData } = useDataContext();
 
@@ -67,24 +68,24 @@ export const AddModal = ({ show, setShow }) => {
 
   const handleImageChange = async (e) => {
 
-    console.log(e);
-
-    const converted = await convertToBase64(e.target.files[0])
-    setInputs({ ...inputs, imageUrl: converted })
+    setInputs({ ...inputs, image: e.target.files[0] })
 
   }
 
 
 
+
+
+
   const handleSubmit = async (e) => {
 
-    // e.preventDefault()
+    e.preventDefault()
 
 
-    const { title, author, year, imageUrl } = inputs
+    const { title, author, year, image } = inputs
     if (!title || !author || !year) return;
 
-    addBook(title, year, author,imageUrl, getData, authState.user.token)
+    addBook(title, year, author,image, getData, authState.user.token)
 
     setShow(false)
    
@@ -98,7 +99,10 @@ export const AddModal = ({ show, setShow }) => {
         <div className='w-full h-[100vh] opacity-50 absolute block bg-black' onClick={() => setShow(false)}>
 
         </div>
-        <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' onSubmit={(e)=>e.preventDefault()}>
+        <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' 
+        onSubmit={handleSubmit}
+        //  onSubmit={(e)=>e.preventDefault()}
+        >
           <div className='flex justify-between items-center my-2 '>
             <h1 className='text-2xl '>
               Add a New Book !
@@ -114,8 +118,9 @@ export const AddModal = ({ show, setShow }) => {
               <label htmlFor="author">Image</label>
               <input type="file" accept='.jpg, .png, .jpeg' name='imageUrl' placeholder='Enter book title' className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 outline-gray-200 rounded-md'
                 onChange={handleImageChange}
+                
               />
-              {inputs.imageUrl && <img className='w-full h-[100px]' src={inputs.imageUrl}  />}
+              {/* {inputs.imageUrl && <img className='w-full h-[100px]' src={async()=>await convertToBase64(inputs.imageUrl)}  />} */}
             </div>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>
@@ -132,14 +137,14 @@ export const AddModal = ({ show, setShow }) => {
 
           </div>
 
-          <div className='w-full px-3'>
+         {/*  <div className='w-full px-3'>
             {(inputs.author && inputs.title && inputs.year) ?<PaystackButton  {...paystackButtonProps} className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' />
             :<button disabled className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>}
-          </div>
-         {/*  <div className='w-full px-3'>
+          </div> */}
+          <div className='w-full px-3'>
             <button type='submit' className='w-full py-3 rounded-md px-3 text-white font-bold bg-blue-500 my-5' >Add new book</button>
           </div>
- */}
+
         </form>
 
       </div>
@@ -187,7 +192,7 @@ export const DetailsModal = ({ data }) => {
           <div className='flex justify-start flex-col gap-5'>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Image</label>
-              {data?.book?.imageUrl && <img  src={data?.book?.imageUrl} className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 w-full h-[200px] outline-gray-200 rounded-md' />}
+              {data?.book?.image && <img  src={data?.book?.image.imageDownLoadUrl} className='px-4 py-3 bg-gray-100 text-sm placeholder:text-gray-500 w-full h-[200px] outline-gray-200 rounded-md' />}
             </div> 
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>
@@ -227,9 +232,11 @@ export const DetailsModal = ({ data }) => {
 }
 
 
-export const DeleteModal = ({ show, setShow, id }) => {
+export const DeleteModal = ({ show, setShow, id, imageFileName }) => {
   const { authState } = useAuthContext();
   const { getData } = useDataContext();
+
+  console.log(imageFileName);
   return show && createPortal(
 
     <div className='fixed flex justify-center items-center w-full h-[100vh] z-50 top-0 bottom-0'>
@@ -247,7 +254,7 @@ export const DeleteModal = ({ show, setShow, id }) => {
           <button className='rounded-md px-4 py-3 bg-red-600 text-white' onClick={() => setShow(false)}>
             Cancel
           </button>
-          <button className='rounded-md px-4 py-3 bg-green-600 text-white' onClick={() => { deleteBook(id, getData, authState.user.token); setShow(false) }}>
+          <button className='rounded-md px-4 py-3 bg-green-600 text-white' onClick={() => { deleteBook(id,imageFileName, getData, authState.user.token); setShow(false) }}>
             Delete
           </button>
 
@@ -284,9 +291,13 @@ export const EditModal = ({ setShow, show, id }) => {
   const { data, getData } = useDataContext()
   const { authState } = useAuthContext();
 
-  console.log(data);
+  console.log("edit modal",data);
 
-  const currentBook = data?.books?.find((book) => book._id === id);
+  const currentBook = data.books.find((book) => book._id === id);
+
+
+
+  console.log("current edit book", currentBook);
 
   if (!currentBook) return;
 
@@ -297,11 +308,18 @@ export const EditModal = ({ setShow, show, id }) => {
   }, [currentBook])
 
 
-  const [inputs, setInputs] = currentBook && useState({ title: currentBook.title, author: currentBook.author, publishYear: currentBook.publishYear, imageUrl: currentBook?.imageUrl || "" })
+  const [inputs, setInputs] = useState({
+    title: currentBook?.title || '',
+    author: currentBook?.author || '',
+    publishYear: currentBook?.publishYear || '',
+    image: currentBook?.image || ''
+  });
 
   useEffect(() => {
-    setInputs(currentBook)
-  }, [id])
+    if (currentBook) {
+      setInputs(currentBook);
+    }
+  }, [currentBook]);
 
 
   const handleChange = (e) => {
@@ -318,7 +336,7 @@ export const EditModal = ({ setShow, show, id }) => {
     console.log(e);
 
     const converted = await convertToBase64(e.target.files[0])
-    setInputs({ ...inputs, imageUrl: converted })
+    setInputs({ ...inputs, image: {...inputs.image ,imageFile:e.target.files[0]}})
 
   }
 
@@ -329,14 +347,14 @@ export const EditModal = ({ setShow, show, id }) => {
 
     e.preventDefault();
 
-    const { title, author, publishYear, _id , imageUrl} = inputs
+    const { title, author, publishYear, _id , image} = inputs
 
     if (!title || !author || !publishYear) {
       toast.error("You're missing something");
       return;
     }
 
-    editBook(id, title, publishYear, author, imageUrl, getData, authState.user.token)
+    editBook(id, title, publishYear, author, image, getData, authState.user.token)
 
     setShow(false)
   }
@@ -371,7 +389,7 @@ export const EditModal = ({ setShow, show, id }) => {
                 onChange={handleImageChange}
 
               />
-              {inputs.imageUrl && <img className='w-full h-[100px]' src={inputs.imageUrl}  />}
+              {inputs.image && <img className='w-full h-[100px]' src={inputs.image.imageDownLoadUrl}  />}
             </div>
             <div className='flex flex-col gap-2 justify-start px-3'>
               <label htmlFor="author">Title</label>

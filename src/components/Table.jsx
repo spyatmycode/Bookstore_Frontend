@@ -12,6 +12,7 @@ const Table = () => {
   const [show, setShow] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [id, setID] = useState(null);
+  const [imageName, setImageName] = useState(null)
 
   
 
@@ -22,7 +23,7 @@ const Table = () => {
   return (
     <div>
 
-      <DeleteModal show={show} setShow={setShow} id={id}/>
+      <DeleteModal show={show} setShow={setShow} imageFileName={imageName} id={id}/>
       <EditModal setShow={setEditModal} show={editModal} id={id}/>
 
       <div className="flex flex-col overflow-x-auto">
@@ -68,7 +69,8 @@ const Table = () => {
                       createdAt,
                       publishYear,
                       updatedAt,
-                      title
+                      title,
+                      image
 
                     } = dataItem
 
@@ -83,7 +85,7 @@ const Table = () => {
                       <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex items-center gap-2 cursor-pointer">
                           <span onClick={()=>{setID(_id);setEditModal(true)}}><FaEdit className="text-emerald-500"/></span>
-                          <span onClick={()=>{setID(_id);setShow(true)}}><FaTrash className="text-red-500"/></span>
+                          <span onClick={()=>{setID(_id);setShow(true); setImageName(image.fileName)}}><FaTrash className="text-red-500"/></span>
                         </div>
                       </td>
                     </tr>)

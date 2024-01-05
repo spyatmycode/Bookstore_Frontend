@@ -4,10 +4,10 @@ import { URL } from '../config/config';
 
 //This is to delete a single book
 
-export const deleteBook = async (id, getData, token) => {
+export const deleteBook = async (id, imageFileName, getData, token) => {
 
   await toast.promise(
-    axios.delete(`${URL}/books/${id}`, {
+    axios.delete(`${URL}/books/${id}?imageFileName=${imageFileName}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -26,17 +26,23 @@ export const deleteBook = async (id, getData, token) => {
 
 //This is to add a single book
 
-export const addBook = async (title, year, author, imageUrl, getData, token) => {
-  console.log(token);
+export const addBook = async (title, year, author, image, getData, token) => {
+
+  const formData = new FormData();
+  formData.append("title", title)
+  formData.append("publishYear", year)
+  formData.append("image", image)
+  formData.append("author", author)
+
+  for (const [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
+ 
   await toast.promise(
-    axios.post(`${URL}/books`, {
-      title: title,
-      publishYear: Number(year),
-      author: author,
-      imageUrl:imageUrl
-    },{
+    axios.post(`${URL}/books`, formData,{
       headers:{
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
       }
     }).then((res) => {
       getData();
@@ -54,14 +60,15 @@ export const addBook = async (title, year, author, imageUrl, getData, token) => 
 
 //This is to edit a book
 
-export const editBook = async (id, title, year, author,imageUrl, getData, token) => {
+export const editBook = async (id, title, year, author,image, getData, token) => {
+  const formData = new FormData();
+  formData.append("title", title)
+  formData.append("publishYear", year)
+  formData.append("image", image.imageFile)
+  formData.append("author", author)
+  formData.append("previousImageName", image.fileName);
   await toast.promise(
-    axios.put(`${URL}/books/${id}`, {
-      title: title,
-      publishYear: Number(year),
-      author: author,
-      imageUrl:imageUrl
-    }, {
+    axios.put(`${URL}/books/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
