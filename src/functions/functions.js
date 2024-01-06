@@ -67,6 +67,8 @@ export const editBook = async (id, title, year, author,image, getData, token) =>
   formData.append("image", image.imageFile)
   formData.append("author", author)
   formData.append("previousImageName", image.fileName);
+  formData.append("previousImageURL", image.imageDownLoadUrl);
+
   await toast.promise(
     axios.put(`${URL}/books/${id}`, formData, {
       headers: {
