@@ -7,11 +7,15 @@ export const useLogIn = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null)
+    const [prompt, setPrompt] = useState("")
+
 
     const { dispatch, authState } = useAuthContext();
 
 
     const login = async (email, password, username) => {
+
+        
 
 
         try {
@@ -33,6 +37,9 @@ export const useLogIn = () => {
             
             setLoading(false);
             setError(error.message)
+            if(error.message === "Please verify your email address"){
+                setPrompt("Did not recieve verification email? click here")
+            }
             console.log(error);
             console.log(error.message)
             toast.error(error?.response?.data?.message)
@@ -42,7 +49,7 @@ export const useLogIn = () => {
 
     }
 
-    return { login, error,loading }
+    return { login, error,loading, prompt }
 
 }
 

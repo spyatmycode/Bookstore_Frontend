@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useSignUp } from '../hooks/useSignUp'
 import { useLogIn } from '../hooks/useLogin'
 import loader from '../assets/circleLoading.gif'
+import { URL } from '../config/config'
+
 
 
 const SignIn = ({ toggle }) => {
@@ -15,7 +17,7 @@ const SignIn = ({ toggle }) => {
 
     const navigate = useNavigate();
 
-    const { login, loading, error } = useLogIn();
+    const { login, loading, error, prompt } = useLogIn();
 
 
 
@@ -56,6 +58,15 @@ const SignIn = ({ toggle }) => {
 
     }
 
+    const sendEmailVerification = async()=>{
+        const send = await axios.post(`${URL}/api/users/send-verification-email?email=${signInInputs.email}`).then((res)=>{
+            toast.success(res.data.message)
+        }).catch((err)=>{
+            toast.error(err.message)
+            console.log(err);
+        })
+    }
+
 
     return (
         <form className='w-full bg-white h-full py-5' onSubmit={(e) => handleSignIn(e)}>
@@ -88,6 +99,10 @@ const SignIn = ({ toggle }) => {
                     </span>
 
                 </div>
+                <div className='w-full text-blue-500 cursor-pointer' onClick={sendEmailVerification}>
+                    <p>{prompt && prompt}</p>
+
+                </div>
 
 
                 <div className=''>
@@ -110,7 +125,7 @@ const SignUp = ({ toggle }) => {
 
     const navigate = useNavigate()
 
-    const { signup, loading, error } = useSignUp()
+    const { signup, loading, error, prompt } = useSignUp()
 
 
 
@@ -200,6 +215,10 @@ const SignUp = ({ toggle }) => {
                         <FaEye className="absolute right-6 text-gray-300 cursor-pointer" onClick={() => setViewPWD(!viewPWD)
                         } required/>
                     </span>
+
+                </div>
+                <div className='w-full text-blue-500'>
+                    {prompt && prompt}
 
                 </div>
 

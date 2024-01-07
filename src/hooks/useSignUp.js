@@ -11,6 +11,7 @@ export const useSignUp = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null)
+    const [prompt, setPrompt] = useState("")
 
     const { dispatch } = useAuthContext();
 
@@ -26,9 +27,11 @@ export const useSignUp = () => {
                  password, email, first_name, last_name, phone
             }).then((res) => {
                 setLoading(false);
-                dispatch({type:'LOGIN', payload:res.data})
-                localStorage.setItem("user", JSON.stringify(res.data));
+                // dispatch({type:'LOGIN', payload:res.data})
+                // localStorage.setItem("user", JSON.stringify(res.data));
                 toast.success("Signup successful")
+                toast.success("Email verification link has been sent to your mailbox !")
+                setPrompt("Please verify your email address to log in")
                 console.log(res);
 
             })
@@ -37,8 +40,8 @@ export const useSignUp = () => {
             setLoading(false);
             setError(error.message)
             console.log(error);
-            console.log(error.message)
-            toast.error(error.response.data.message)
+            console.log(error?.message)
+            toast.error(error?.response?.data?.message)
 
         }
 
@@ -47,7 +50,7 @@ export const useSignUp = () => {
 
 
 
-    return { signup, error,loading }
+    return { signup, error,loading, prompt }
 
 }
 
