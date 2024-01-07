@@ -31,11 +31,11 @@ const App = () => {
     socket.on("customeridentification.success", (data)=>{
 
 
-      const {message} = data
-
-      console.log("SOCKETT OMGGG",message);
+      const {message} = data;
 
       toast.success(message)
+
+      window.location.reload()
     })
 
 
