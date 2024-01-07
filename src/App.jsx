@@ -35,7 +35,9 @@ const App = () => {
 
       toast.success(message)
 
-      window.location.reload()
+      setTimeout(()=>{
+        window.location.reload()
+      }, 5000)
     })
 
 
