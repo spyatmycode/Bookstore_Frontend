@@ -10,6 +10,7 @@ import  useAuthContext  from './hooks/useAuthContext'
 import Settings from './pages/Settings'
 import { useLogout } from './hooks/useLogout'
 import io from 'socket.io-client'
+import { URL } from './config/config'
 
 const App = () => {
 
@@ -22,19 +23,31 @@ const App = () => {
   const socket = io.connect(`${URL}`);
 
   useEffect(()=>{
-    socket.on("customer-verification", (data)=>{
+
+    socket.on("*",(data)=>{
+      toast(data?.message)
+    })
+   
+    socket.on("customeridentification.success", (data)=>{
 
 
-      const {message} = data.message
+      const {message} = data
 
       console.log("SOCKETT OMGGG",message);
 
-      toast(message)
-
-      
-
+      toast.success(message)
     })
-  })
+
+
+    socket.on("charge.success", (data)=>{
+
+      const {message} = data
+
+      toast.success(message)
+      
+    })
+
+  },[])
 
 
 
@@ -58,6 +71,7 @@ const App = () => {
 
 
     }
+
 
 
     console.log("hi", exp);
@@ -98,7 +112,11 @@ const App = () => {
     <>
       <Toaster
         position="top-center"
-        reverseOrder={false}
+        reverseOrder={true}
+        toastOptions={{
+          duration: 10000
+        }}
+        
       />
 
       <RouterProvider router={router} />

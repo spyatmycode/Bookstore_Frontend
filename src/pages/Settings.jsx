@@ -10,6 +10,8 @@ const Settings = () => {
   const payStackUserData = useAuthContext()?.authState?.user?.payStackUserData;
   const userData = useAuthContext()?.authState?.user?.userData;
 
+
+
   console.log(payStackUserData);
 
   if (!payStackUserData || !userData) {
@@ -99,6 +101,8 @@ const Settings = () => {
         first_name: first_name,
         last_name: last_name
       }
+
+      console.log(dataToBeSent);
 
       await toast.promise(
          axios.post(`${URL}/api/paystack/validate`, dataToBeSent, {

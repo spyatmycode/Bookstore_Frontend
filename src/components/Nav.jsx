@@ -20,7 +20,7 @@ const Nav = () => {
 
     return (
         <>
-            <div className='w-full p-4 px-10 flex justify-between gap-3 items-center'>
+            <div className='w-full p-4 px-10 flex justify-between gap-3 items-center bg-white'>
 
                 <div className='' onClick={()=>showSideBar(true)}>
                     <FaBars className='text-2xl cursor-pointer'/>
@@ -31,9 +31,7 @@ const Nav = () => {
                <span className='cursor-pointer'>
                    {authState?.user?.email}
                 </span>
-                <span className='cursor-pointer'>
-                   {authState?.user?.email}
-                </span>
+                
                 <span className='cursor-pointer'>
                     {location.pathname==="/" && <AddBook />}
                 </span>
