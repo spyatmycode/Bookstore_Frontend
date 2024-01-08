@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
 
     },[authState?.user?.token])
 
-    console.log("Authstate:", authState);
+
 
 
     return (

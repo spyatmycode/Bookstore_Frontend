@@ -8,7 +8,7 @@ import { useSignUp } from '../hooks/useSignUp'
 import { useLogIn } from '../hooks/useLogin'
 import loader from '../assets/circleLoading.gif'
 import { URL } from '../config/config'
-
+import axios from 'axios'
 
 
 const SignIn = ({ toggle }) => {
@@ -18,6 +18,16 @@ const SignIn = ({ toggle }) => {
     const navigate = useNavigate();
 
     const { login, loading, error, prompt } = useLogIn();
+
+    console.log(error);
+
+
+    
+
+
+    console.log("prompt here", prompt);
+
+    
 
 
 
@@ -31,7 +41,6 @@ const SignIn = ({ toggle }) => {
 
     const location = useLocation()
 
-    const from = location.state?.from?.pathname || "/"
 
     const handleSignIn = async (e) => {
 
@@ -42,10 +51,13 @@ const SignIn = ({ toggle }) => {
                 throw Error("Please enter all required fields");
             }
 
-            await login(signInInputs.email, signInInputs.password);
+            const loginUser = await login(signInInputs.email, signInInputs.password);
 
-            navigate("/")
+            if(loginUser && error === null){
+                navigate("/")
+            }
 
+            
             console.log(signInInputs);
 
         } catch (error) {
@@ -155,9 +167,12 @@ const SignUp = ({ toggle }) => {
             };
             
             await signup(signupInputs.email, signupInputs.password, signupInputs.first_name, signupInputs.last_name, signupInputs.phone);
-            navigate("/")
 
-            console.log(signupInputs);
+            if(error === null){
+                navigate("/")
+            }
+            
+
         } catch (error) {
 
             console.log(error);
@@ -169,8 +184,6 @@ const SignUp = ({ toggle }) => {
     }
 
 
-
-    console.log(signupInputs)
     return (
         <form className='w-full bg-white h-full py-5' onSubmit={handleSignUp}>
 

@@ -42,7 +42,6 @@ export const AddModal = ({ show, setShow }) => {
 
     onSuccess: () => {
       alert("Thanks for doing business with us! Come back soon!!");
-      console.log("inside pay", inputs);
       handleSubmit();
     },
     onClose: () => {
@@ -51,7 +50,7 @@ export const AddModal = ({ show, setShow }) => {
     },
   }
 
-  console.log("outside pay", inputs);
+
 
 
 
@@ -236,7 +235,7 @@ export const DeleteModal = ({ show, setShow, id, imageFileName }) => {
   const { authState } = useAuthContext();
   const { getData } = useDataContext();
 
-  console.log(imageFileName);
+
   return show && createPortal(
 
     <div className='fixed flex justify-center items-center w-full h-[100vh] z-50 top-0 bottom-0'>
@@ -291,13 +290,13 @@ export const EditModal = ({ setShow, show, id }) => {
   const { data, getData } = useDataContext()
   const { authState } = useAuthContext();
 
-  console.log("edit modal",data);
+
 
   const currentBook = data.books.find((book) => book._id === id);
 
 
 
-  console.log("current edit book", currentBook);
+
 
   if (!currentBook) return;
 
@@ -333,7 +332,7 @@ export const EditModal = ({ setShow, show, id }) => {
 
   const handleImageChange = async (e) => {
 
-    console.log(e);
+
 
     const converted = await convertToBase64(e.target.files[0])
     setInputs({ ...inputs, image: {...inputs.image ,imageFile:e.target.files[0]}})
@@ -359,7 +358,7 @@ export const EditModal = ({ setShow, show, id }) => {
     setShow(false)
   }
 
-  console.log(inputs);
+
 
 
 

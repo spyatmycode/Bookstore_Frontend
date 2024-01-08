@@ -34,9 +34,7 @@ export const addBook = async (title, year, author, image, getData, token) => {
   formData.append("image", image)
   formData.append("author", author)
 
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
+
  
   await toast.promise(
     axios.post(`${URL}/books`, formData,{

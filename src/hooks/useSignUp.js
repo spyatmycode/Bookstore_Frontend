@@ -18,7 +18,7 @@ export const useSignUp = () => {
 
     const signup = async (email, password, first_name, last_name, phone) => {
 
-        console.log({email, password, first_name, last_name, phone});
+
 
 
         try {

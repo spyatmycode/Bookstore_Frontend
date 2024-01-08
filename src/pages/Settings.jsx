@@ -11,9 +11,6 @@ const Settings = () => {
   const userData = useAuthContext()?.authState?.user?.userData;
 
 
-
-  console.log(payStackUserData);
-
   if (!payStackUserData || !userData) {
     // Handle the case where payStackUserData is not available
     return <div>Loading...</div>;
@@ -39,7 +36,7 @@ const Settings = () => {
   }
 
   const getBankDetails = async () => {
-    console.log("HERE");
+
 
     try {
       
@@ -102,7 +99,7 @@ const Settings = () => {
         last_name: last_name
       }
 
-      console.log(dataToBeSent);
+      
 
       await toast.promise(
          axios.post(`${URL}/api/paystack/validate`, dataToBeSent, {
@@ -119,7 +116,6 @@ const Settings = () => {
       }
       )
 
-      console.log(dataToBeSent);
     } catch (error) {
 
       console.log(error);
@@ -142,10 +138,6 @@ const Settings = () => {
 
   },[userVerification.bank, userVerification.account_number])
 
-  console.log(userVerification?.account_number?.toString().length);
-
-
-  console.log(userVerification);
   return (
 
     

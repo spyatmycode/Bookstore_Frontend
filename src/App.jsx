@@ -75,9 +75,6 @@ const App = () => {
     }
 
 
-
-    console.log("hi", exp);
-
   }, [])
 
 
