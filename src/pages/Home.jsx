@@ -7,6 +7,8 @@ import useDataContext from "../hooks/useDataContext";
 const Home = () => {
   const {data} = useDataContext();
 
+  if(!data) return <div> Loading... </div>
+
 
 
 

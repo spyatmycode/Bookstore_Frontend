@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import ReactDOM, { createPortal } from 'react-dom'
 import { FaTimes } from 'react-icons/fa'
-import { addBook, editBook } from '../functions/functions'
+import { addBook, editBook, refund } from '../functions/functions'
 import { deleteBook } from "../functions/functions";
 import circleLoading from '../assets/circleLoading.gif'
 import { Link } from 'react-router-dom'
@@ -11,10 +11,13 @@ import useDataContext from '../hooks/useDataContext'
 import { PaystackButton } from 'react-paystack'
 import { convertToBase64 } from '../functions/functions';
 import { URL } from '../config/config';
+import { v4 } from 'uuid';
 
 export const AddModal = ({ show, setShow }) => {
 
   const { authState } = useAuthContext();
+
+  const bookId = v4()
 
 
   const [inputs, setInputs] = useState({ title: "", author: "", year: "", image: "", amount: 10000 });
@@ -35,6 +38,8 @@ export const AddModal = ({ show, setShow }) => {
         bookName: inputs.title,
         bookAuthor: inputs.author,
         bookYear: inputs.year,
+        bookId
+        
       }
     },
     publicKey: `pk_live_729425cdaab5414754847d06f523e6cd1cc78f59`,
@@ -45,7 +50,7 @@ export const AddModal = ({ show, setShow }) => {
       handleSubmit();
     },
     onClose: () => {
-      alert("Are you sure you don't to publish your book?");
+      alert("Are you sure you don't want to publish your book?");
       setShow(false)
     },
   }
@@ -84,7 +89,7 @@ export const AddModal = ({ show, setShow }) => {
     const { title, author, year, image } = inputs
     if (!title || !author || !year) return;
 
-    addBook(title, year, author,image, getData, authState.user.token)
+    addBook(title, year, author,image, bookId, getData, authState.user.token)
 
     setShow(false)
    
@@ -265,6 +270,48 @@ export const DeleteModal = ({ show, setShow, id, imageFileName }) => {
 
   )
 }
+export const RefundModal = ({ show, setShow, transactionId}) => {
+  const { authState } = useAuthContext();
+  const { getData } = useDataContext();
+
+  console.log("AT THE TID modal", transactionId);
+
+  if(show && !transactionId){
+    toast.error("Oops! This book cannot be refunded...");
+    setShow(false)
+    return;
+  }
+
+
+  return show && createPortal(
+
+    <div className='fixed flex justify-center items-center w-full h-[100vh] z-50 top-0 bottom-0'>
+      <div className='w-full h-[100vh] opacity-50 absolute block bg-black' onClick={() => setShow(false)}>
+
+      </div>
+
+      <div className='w-1/2 absolute bg-white px-4 py-5 rounded-md flex flex-col gap-10 items-center'>
+
+        <h1 >
+          Are you sure you want to get a refund on this book?
+        </h1>
+
+        <div className='flex items-center gap-5 w-full justify-center'>
+          <button className='rounded-md px-4 py-3 bg-red-600 text-white' onClick={() => setShow(false)}>
+            Cancel
+          </button>
+          <button className='rounded-md px-4 py-3 bg-green-600 text-white' onClick={() => { refund(transactionId,authState.user.token, getData); setShow(false) }}>
+            Refund
+          </button>
+
+        </div>
+
+      </div>
+    </div>,
+    document.getElementById('modal')
+
+  )
+}
 
 export const LoadingModal = ({ loading }) => {
 
@@ -292,7 +339,7 @@ export const EditModal = ({ setShow, show, id }) => {
 
 
 
-  const currentBook = data.books.find((book) => book._id === id);
+  const currentBook = data?.books?.find((book) => book._id === id);
 
 
 

@@ -16,10 +16,20 @@ const DataProvider = ({ children }) => {
 
   const [sideBar, showSideBar] = useState(false);
 
+  const defaultView = JSON.parse(localStorage.getItem("view")) || false
+
+  const [view, setView ] = useState(defaultView)
+
   const [bankList, setBankList] = useState(null)
   const [countryList, setCountryList] = useState(null)
 
-  const { authState } = useAuthContext()
+  const { authState } = useAuthContext();
+
+  useEffect(()=>{
+
+    localStorage.setItem("view", JSON.stringify(view))
+
+  },[view])
 
 
 
@@ -78,7 +88,7 @@ const DataProvider = ({ children }) => {
   }, [authState?.user?.token]);
 
   return (
-    <DataContext.Provider value={{ data, setData, getData, sideBar, showSideBar, bankList, countryList }}>
+    <DataContext.Provider value={{ data, setData, getData, view, setView, sideBar, showSideBar, bankList, countryList }}>
       {children}
     </DataContext.Provider>
   )

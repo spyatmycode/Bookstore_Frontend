@@ -6,3 +6,29 @@
   font-family: "Poppins", sans-serif;
 }
 
+#book{
+  background-color: black;
+ 
+}
+
+
+#book #overlay{
+  font-weight: 900;
+  transform: translateY(10%);
+  transition: 0.32 ease-in;
+  visibility: hidden;
+}
+
+#book:hover #overlay{
+
+  visibility: visible;
+  transform: translateY(-50%);
+  transition: 0.2s ease-in;
+  
+
+}
+
+#book:hover #book-image{
+  opacity: 60%;
+  transition: 0.3s ease-out;
+}

@@ -11,10 +11,13 @@ import Settings from './pages/Settings'
 import { useLogout } from './hooks/useLogout'
 import io from 'socket.io-client'
 import { URL } from './config/config'
+import Books from './pages/Books'
+import useDataContext from './hooks/useDataContext'
 
 const App = () => {
 
   const { authState } = useAuthContext()
+  const {getData, view, setView} = useDataContext()
 
   const { logout } = useLogout()
 
@@ -44,6 +47,15 @@ const App = () => {
     socket.on("charge.success", (data)=>{
 
       const {message} = data
+      getData();
+
+      toast.success(message)
+      
+    })
+    socket.on("refund", (data)=>{
+
+      const {message} = data
+      getData();
 
       toast.success(message)
       
@@ -91,12 +103,13 @@ const App = () => {
         children: [
           {
             index: true,
-            element: <Home />
+            element:(view ? <Home />: <Books/>)
           },
           {
             path: "/settings",
             element: <Settings />
-          }
+          },
+
         ]
       },
       {
@@ -113,7 +126,7 @@ const App = () => {
         position="top-center"
         reverseOrder={true}
         toastOptions={{
-          duration: 10000
+          duration: 20000
         }}
         
       />

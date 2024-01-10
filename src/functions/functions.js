@@ -26,13 +26,14 @@ export const deleteBook = async (id, imageFileName, getData, token) => {
 
 //This is to add a single book
 
-export const addBook = async (title, year, author, image, getData, token) => {
+export const addBook = async (title, year, author, image,bookId ,getData, token) => {
 
   const formData = new FormData();
   formData.append("title", title)
   formData.append("publishYear", year)
   formData.append("image", image)
   formData.append("author", author)
+  formData.append("bookId", bookId)
 
 
  
@@ -104,6 +105,36 @@ export const getBook = async (id, token) => {
 
 };
 
+//This is refund a book;
+
+export const refund = async(transactionId, token, getData)=>{
+
+
+  try {
+   await toast.promise(axios.post(`${URL}/api/paystack/refund`,{
+      transactionId
+    },{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res)=>{
+      toast.success(res.data.message);
+      getData();
+    }),{
+      loading:"Refund request is processing...",
+      success:"Refund request has been sent successfully.. Please check your email",
+      error:"There was an error processing your refund request."
+    })
+  } catch (error) {
+
+    console.log(error);
+    
+  }
+}
+
+
+//This is convert a file to base 64
+
 export function convertToBase64(file){
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -116,4 +147,7 @@ export function convertToBase64(file){
     }
   })
 }
+
+
+
 

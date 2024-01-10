@@ -16,6 +16,8 @@ const Table = () => {
 
   
 
+  
+
 
   console.log(id);
 
@@ -84,7 +86,7 @@ const Table = () => {
                       <td className="whitespace-nowrap px-6 py-4">{updatedAt}</td>
                       <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex items-center gap-2 cursor-pointer">
-                          <span onClick={()=>{setID(_id);setEditModal(true)}}><FaEdit className="text-emerald-500"/></span>
+                          <span onClick={()=>{setID(_id);setEditModal(true); console.log(dataItem)}}><FaEdit className="text-emerald-500"/></span>
                           <span onClick={()=>{setID(_id);setShow(true); setImageName(image.fileName)}}><FaTrash className="text-red-500"/></span>
                         </div>
                       </td>
