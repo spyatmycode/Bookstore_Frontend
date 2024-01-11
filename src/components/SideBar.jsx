@@ -8,11 +8,11 @@ const SideBar = () => {
     const {sideBar, showSideBar} = useDataContext();
     return sideBar && createPortal(
         <div className='h-[100vh] fixed top-0 bottom-0 flex w-full z-[99999]'>
-            <div className='lg:w-1/5 w-2/5 h-full flex pt-6 flex-col bg-white'>
+            <div className='lg:w-2/5 w-3/5 h-full flex pt-6 flex-col bg-white'>
 
 
                 <span className='flex items-center justify-between px-5 py-10 '>
-                <p className='font-bold text-xl select-none'>DEDICATEDVAS</p>
+                <p className='font-bold text-xs md:text-lg select-none'>DEDICATEDVAS</p>
                 <FaTimes className='text-xl font-extralight cursor-pointer' onClick={()=>showSideBar(false)}/>
 
 
