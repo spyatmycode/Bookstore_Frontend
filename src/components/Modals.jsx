@@ -38,7 +38,7 @@ export const AddModal = ({ show, setShow }) => {
         bookName: inputs.title,
         bookAuthor: inputs.author,
         bookYear: inputs.year,
-        bookId
+        bookId: bookId
         
       }
     },

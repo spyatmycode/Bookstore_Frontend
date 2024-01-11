@@ -126,8 +126,11 @@ const App = () => {
         position="top-center"
         reverseOrder={true}
         toastOptions={{
-          duration: 20000
+          duration: 20000,
+          
+
         }}
+      
         
       />
 

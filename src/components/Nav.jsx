@@ -21,19 +21,19 @@ const Nav = () => {
 
     return (
         <>
-            <div className='w-full p-4 px-10 flex justify-between gap-5 items-center bg-white'>
+            <div className='w-full p-4 fixed top-0 px-10 flex justify-between shadow-lg gap-5 items-center bg-white'>
 
                 <div className='' onClick={() => showSideBar(true)}>
                     <FaBars className='text-2xl cursor-pointer' />
                 </div>
 
 
-                <div className='flex justify-end gap-4 items-center'>
+                <div className='flex justify-end gap-1 md:gap-3 items-center w-full overflow-x-scroll'>
                     <span className='cursor-pointer hidden md:block'>
                         {authState?.user?.email}
                     </span>
 
-                    <button className='px-4 py-3 rounded-md bg-blue-500 text-white' onClick={()=>setView(!view)}>
+                    <button className='px-4 py-3 text-sm rounded-md bg-blue-500 text-white' onClick={()=>setView(!view)}>
                         Switch view 
                     </button>
 
@@ -48,7 +48,7 @@ const Nav = () => {
             </div>
 
             <SideBar />
-            <div className='w-full h-[90vh]'>
+            <div className='w-full  top-[10vh] bottom-0 fixed overflow-y-auto overflow-x-hidden'>
                 <Outlet />
             </div>
         </>
