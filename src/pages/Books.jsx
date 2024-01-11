@@ -6,11 +6,13 @@ import { DeleteModal, EditModal, LoadingModal, RefundModal } from '../components
 const Books = () => {
   const { data } = useDataContext()
 
-  if(!data) return <div className=' relative top-[10vh]'>Loading...</div>
+  if(!data) return <div className=' relative top-[10vh]'>Loading ke...</div>
 
-  if(data?.books?.count <= 0)
+  console.log("no book test", data);
+
+  if(data?.count <= 0)
   { return(
-    <div className='w-full text-center text-2xl'>
+    <div className='w-full text-center my-10'>
 
       No books at this time, add a new book
 
