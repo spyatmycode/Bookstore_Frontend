@@ -7,7 +7,7 @@ import useDataContext from "../hooks/useDataContext";
 const Home = () => {
   const {data} = useDataContext();
 
-  if(!data) return <div> Loading... </div>
+  if(!data) return <div className=' relative top-[10vh]'>Loading...</div>
 
 
 

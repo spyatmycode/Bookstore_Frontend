@@ -127,6 +127,9 @@ const App = () => {
         reverseOrder={true}
         toastOptions={{
           duration: 20000,
+          success:{
+            duration: 5000,
+          }
           
 
         }}

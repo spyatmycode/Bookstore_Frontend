@@ -13,7 +13,7 @@ const Settings = () => {
 
   if (!payStackUserData || !userData) {
     // Handle the case where payStackUserData is not available
-    return <div>Loading...</div>;
+    return <div className=' relative top-[10vh]'>Loading...</div>
   }
 
   const {authState} = useAuthContext()
@@ -142,7 +142,7 @@ const Settings = () => {
 
     
     <div className='w-full h-full flex justify-center flex-col items-center'>
-      <form className="w-full max-w-lg px-4 lg:border-2 lg:px-12 lg:py-12 lg:rounded-md" onSubmit={handleSubmit}>
+      <form className="w-full max-w-lg px-4 py-5 lg:border-2 lg:px-12 lg:py-12 lg:rounded-md relative h-full top-0 bottom-0 " onSubmit={handleSubmit}>
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">

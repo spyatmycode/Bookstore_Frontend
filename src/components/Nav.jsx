@@ -48,7 +48,7 @@ const Nav = () => {
             </div>
 
             <SideBar />
-            <div className='w-full  top-[10vh] bottom-0 fixed overflow-y-auto overflow-x-hidden'>
+            <div className='w-full top-[10vh] bottom-0 fixed overflow-y-auto overflow-x-hidden'>
                 <Outlet />
             </div>
         </>
