@@ -17,7 +17,9 @@ export const AddModal = ({ show, setShow }) => {
 
   const { authState } = useAuthContext();
 
-  const bookId = v4()
+  const uniqueBookId = v4();
+
+  const [bookId, setBookId] = useState(uniqueBookId)
 
 
   const [inputs, setInputs] = useState({ title: "", author: "", year: "", image: "", amount: 10000 });
@@ -76,16 +78,18 @@ export const AddModal = ({ show, setShow }) => {
 
   }
 
+  console.log(paystackButtonProps.metadata.book);
 
 
 
 
 
-  const handleSubmit = async () => {
+
+  const handleSubmit = async (e) => {
 
     
 
-
+    // e.preventDefault()
     const { title, author, year, image } = inputs
     if (!title || !author || !year) return;
 
