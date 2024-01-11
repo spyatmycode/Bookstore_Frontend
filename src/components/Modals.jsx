@@ -103,7 +103,7 @@ export const AddModal = ({ show, setShow }) => {
         <div className='w-full h-[100vh] opacity-50 absolute block bg-black' onClick={() => setShow(false)}>
 
         </div>
-        <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' 
+        <form className='md:w-1/2 w-6/7 absolute bg-white px-4 py-5 rounded-md' 
         // onSubmit={handleSubmit}
          onSubmit={(e)=>e.preventDefault()}
         >
@@ -180,7 +180,7 @@ export const DetailsModal = ({ data }) => {
         <div className='w-full h-[100vh] opacity-50 absolute block bg-black' >
 
         </div>
-        <div className='w-1/2 absolute bg-white px-4 py-5 rounded-md' >
+        <div className='md:w-1/2 w-full absolute bg-white px-4 py-5 rounded-md' >
           <div className='flex justify-between items-center my-2 flex-shrink-0'>
             <h1 className='lg:text-2xl text-black text-xs sm:text-base'>
               {_id}
@@ -248,7 +248,7 @@ export const DeleteModal = ({ show, setShow, id, imageFileName }) => {
 
       </div>
 
-      <div className='w-1/2 absolute bg-white px-4 py-5 rounded-md flex flex-col gap-10 items-center'>
+      <div className='md:w-1/2 w-6/7 absolute bg-white px-4 py-5 rounded-md flex flex-col gap-10 items-center'>
 
         <h1 >
           Are you sure you want to delete this?
@@ -290,7 +290,7 @@ export const RefundModal = ({ show, setShow, transactionId}) => {
 
       </div>
 
-      <div className='w-1/2 absolute bg-white px-4 py-5 rounded-md flex flex-col gap-10 items-center'>
+      <div className='md:w-1/2 w-6/7 absolute bg-white px-4 py-5 rounded-md flex flex-col gap-10 items-center'>
 
         <h1 >
           Are you sure you want to get a refund on this book?
@@ -417,7 +417,7 @@ export const EditModal = ({ setShow, show, id }) => {
         <div className='w-full h-[100vh] opacity-50 absolute block bg-black' onClick={() => setShow(false)}>
 
         </div>
-        <form className='w-1/2 absolute bg-white px-4 py-5 rounded-md' onSubmit={handleSubmit}>
+        <form className='md:w-1/2 w-6/7 absolute bg-white px-4 py-5 rounded-md' onSubmit={handleSubmit}>
           <div className='flex justify-between items-center my-2 '>
             <h1 className='text-2xl '>
               Edit this Book !
