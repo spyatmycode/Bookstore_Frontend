@@ -6,7 +6,7 @@ import { DeleteModal, EditModal, LoadingModal, RefundModal } from '../components
 const Books = () => {
   const { data } = useDataContext()
 
-  if(!data) return <div className=' relative top-[10vh]'>Loading ke...</div>
+  if(!data) return <div className=' relative top-[10vh]'>Loading...</div>
 
 
   if(data?.count <= 0)

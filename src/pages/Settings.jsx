@@ -111,7 +111,7 @@ const Settings = () => {
       }),
       {
         success: "Success ! Your verification is being processed!",
-        loading: "Request is loading...",
+        loading: "Request is processing...",
         error:"Request failed"
       }
       )
