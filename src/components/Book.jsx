@@ -18,10 +18,6 @@ const Book = ({setDeleteModal, setImageName, setID, book, setEditModal, setTrans
     const [show, setShow] = useState(false)
 
 
-
-
-
-    console.log(data);
     return (
         <div className='md:w-[250px] w-full  border-gray-400 rounded-md border-2 h-[300px] relative shadow-xl' id="book">
 
