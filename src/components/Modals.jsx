@@ -278,7 +278,6 @@ export const RefundModal = ({ show, setShow, transactionId}) => {
   const { authState } = useAuthContext();
   const { getData } = useDataContext();
 
-  console.log("AT THE TID modal", transactionId);
 
   if(show && !transactionId){
     toast.error("Oops! This book cannot be refunded at this time. Please try again later ;)");

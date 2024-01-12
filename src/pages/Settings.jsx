@@ -23,7 +23,7 @@ const Settings = () => {
 
   const { bankList, countryList } = useDataContext()
 
-  console.log(countryList);
+
 
   const [userProfile, setUserProfile] = useState({ email, first_name, last_name, phone })
   const [error,setError] = useState(null)
@@ -107,7 +107,7 @@ const Settings = () => {
           Authorization: `Bearer ${authState?.user?.token}`
         }
       }).then((response)=>{
-        console.log(response);
+        
       }),
       {
         success: "Success ! Your verification is being processed!",
@@ -129,8 +129,7 @@ const Settings = () => {
   useEffect(()=>{
 
     if(userVerification.bank && userVerification.account_number?.toString().length === 10){
-      console.log("WE're good");
-
+     
       const account_name = getBankDetails()
     
     }

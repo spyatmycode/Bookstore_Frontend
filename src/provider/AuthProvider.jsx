@@ -58,12 +58,6 @@ const AuthProvider = ({ children }) => {
 
 
 
-    useEffect(() => {
-
-        console.log(authState);
-
-
-    }, [authState]);
 
     useEffect(()=>{
         getPayStackData()

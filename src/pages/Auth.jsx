@@ -22,14 +22,6 @@ const SignIn = ({ toggle }) => {
     console.log(error);
 
 
-    
-
-
-    console.log("prompt here", prompt);
-
-    
-
-
 
     const [signInInputs, setSignInInputs] = useState({ password: "", email: "" })
     const [viewPWD, setViewPWD] = useState(false)
@@ -56,9 +48,6 @@ const SignIn = ({ toggle }) => {
             if(loginUser && error === null){
                 navigate("/")
             }
-
-            
-            console.log(signInInputs);
 
         } catch (error) {
             console.log(error);

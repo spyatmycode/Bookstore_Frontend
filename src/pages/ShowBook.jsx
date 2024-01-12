@@ -23,7 +23,6 @@ const ShowBook = () => {
 
       })
       .then((res)=>{
-        console.log(res);
         setPageData(res.data);
         setLoading(false)
       }).catch((err)=>{

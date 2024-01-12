@@ -8,7 +8,6 @@ const Books = () => {
 
   if(!data) return <div className=' relative top-[10vh]'>Loading ke...</div>
 
-  console.log("no book test", data);
 
   if(data?.count <= 0)
   { return(
@@ -26,9 +25,6 @@ const Books = () => {
   const [imageName, setImageName] = useState(null);
   const [transactionId, setTransactionId] = useState(null);
 
-  console.log(transactionId,"TID");
-
-  
 
 
   return (

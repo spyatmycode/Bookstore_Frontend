@@ -32,7 +32,7 @@ export const useSignUp = () => {
                 toast.success("Signup successful")
                 toast.success("Email verification link has been sent to your mailbox !")
                 setPrompt("Please verify your email address to log in")
-                console.log(res);
+               
 
             })
         } catch (error) {
