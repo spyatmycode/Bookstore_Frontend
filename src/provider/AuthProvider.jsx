@@ -38,9 +38,7 @@ const AuthProvider = ({ children }) => {
     })
 
     const getPayStackData = async () => {
-        const getProfile = await axios.get(`${URL}/api/paystack/customer?email=${authState?.user?.email}`, {
-            email: `${authState?.user?.email}`
-        }, {
+        const getProfile = await axios.get(`${URL}/api/paystack/customer`, {
             headers: {
                 Authorization: `Bearer ${authState?.user?.token}`
             }
