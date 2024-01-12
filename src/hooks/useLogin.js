@@ -27,7 +27,7 @@ export const useLogIn = () => {
 
             setLoading(false);
 
-            console.log(res);
+     
 
             if (res.data.message === "Please verify your email") {
 
@@ -43,8 +43,7 @@ export const useLogIn = () => {
             localStorage.setItem("user", JSON.stringify(res.data));
             toast.success("Login successful")
 
-            console.log(res);
-
+    
 
 
 

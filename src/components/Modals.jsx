@@ -78,12 +78,6 @@ export const AddModal = ({ show, setShow }) => {
 
   }
 
-  console.log(paystackButtonProps.metadata.book);
-
-
-
-
-
 
   const handleSubmit = async (e) => {
 
