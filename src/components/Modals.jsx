@@ -37,19 +37,23 @@ export const AddModal = ({ show, setShow }) => {
       name: authState?.user.userData?.first_name,
       phone: authState?.user.userData?.phone,
       book: {
-        bookName: inputs.title,
-        bookAuthor: inputs.author,
-        bookYear: inputs.year,
+        title: inputs.title,
+        author: inputs.author,
+        publishYear: inputs.year,
         bookId: bookId
+        
         
       }
     },
-    publicKey: `pk_live_729425cdaab5414754847d06f523e6cd1cc78f59`,
+    //pk_live_729425cdaab5414754847d06f523e6cd1cc78f59
+    publicKey: `pk_test_d84f687c21829be738ade7d5bafbef5bd2da8c21`,
     text: "Add book now",
 
-    onSuccess: () => {
-      alert("Thanks for doing business with us! Come back soon!!");
-      handleSubmit();
+    onSuccess: (reference) => {
+      alert("Thanks for publishing your book!");
+
+      console.log("reference from ps",reference);
+      handleSubmit(reference.reference);
     },
     onClose: () => {
       alert("Are you sure you don't want to publish your book?");
@@ -79,7 +83,7 @@ export const AddModal = ({ show, setShow }) => {
   }
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (reference) => {
 
     
 
@@ -87,7 +91,7 @@ export const AddModal = ({ show, setShow }) => {
     const { title, author, year, image } = inputs
     if (!title || !author || !year) return;
 
-    addBook(title, year, author,image, bookId, getData, authState.user.token)
+    addBook(reference,image, getData, authState.user.token)
 
     setShow(false)
    

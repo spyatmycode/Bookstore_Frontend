@@ -26,14 +26,13 @@ export const deleteBook = async (id, imageFileName, getData, token) => {
 
 //This is to add a single book
 
-export const addBook = async (title, year, author, image,bookId ,getData, token) => {
+export const addBook = async (reference, image ,getData, token) => {
 
   const formData = new FormData();
-  formData.append("title", title)
-  formData.append("publishYear", year)
+  
   formData.append("image", image)
-  formData.append("author", author)
-  formData.append("bookId", bookId)
+  formData.append("reference", reference);
+  
 
 
  

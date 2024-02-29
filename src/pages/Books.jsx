@@ -40,7 +40,7 @@ const Books = () => {
           data?.books?.map((book)=>{
 
             return(
-            <Book deleteModal={deleteModal} editModal={editModal} setEditModal={setEditModal} setDeleteModal={setDeleteModal} imageFileName={imageName} id={id} book={book} setImageName={setImageName} setID={setID} transactionId={transactionId} setRefundModal={setRefundModal} setTransactionId={setTransactionId}/>)
+            <Book key={id} deleteModal={deleteModal} editModal={editModal} setEditModal={setEditModal} setDeleteModal={setDeleteModal} imageFileName={imageName} id={id} book={book} setImageName={setImageName} setID={setID} transactionId={transactionId} setRefundModal={setRefundModal} setTransactionId={setTransactionId}/>)
           })
 
         }
